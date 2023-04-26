@@ -1,0 +1,35 @@
+#include<stdio.h>
+#include<math.h>
+
+    void cargar ficheros(ENERGIA *E);
+    PROTOTIPO DE FUNCIONES
+    
+    typedef struct 
+    {
+        double hidrúlica;
+        double turbinación bombeo;
+        .
+        .
+        double residuos- renovables;
+    }  ENERGIA;
+    
+    void main()
+    {
+        ENERGIA energia[24];
+        cargar_fichero(&energia,24);
+                menu();
+    }
+    
+    void cargar_fichero(ENERGIA*E[],int n)
+    {
+    }
+       
+    void estadísitca()
+    {
+    }
+     void ordenar()
+    {
+    }
+     void tabla()
+    {
+    }
