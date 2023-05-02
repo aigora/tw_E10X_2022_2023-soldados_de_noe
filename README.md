@@ -10,3 +10,7 @@ Rafael Barreto De Vicente (rafaelbarretodv)
 ## Objetivos del trabajo
 
 [Lista de los objetivos que se persiguen con el trabajo propuesto.]
+-Manejo de programación en C.
+-Abrir y utilizar ficheros
+-Manejo de funciones.
+-Creación de menús prácticos
