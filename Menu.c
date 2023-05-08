@@ -45,7 +45,7 @@ void menu()
     int i;
     datos energia[24]; //Vector estructura para almacenar los datos de las energias de cada fecha
     leerfichero (energia);
-    printf("Bienvenid@ al menu. Elige la opción que desees: \n");
+    //printf("Bienvenid@ al menu. Elige la opción que desees: \n");
 }
 
 void leerfichero (datos x[])
@@ -97,9 +97,9 @@ void leerfichero (datos x[])
         }
 
     }while(linea[i] != '\n');
-    //printf("Esta es la cadena cambiada: \n%s\n", linea);
+    printf("Esta es la cadena cambiada: \n%s\n", linea);
 
-    for(i=0; linea[i] != '\n'; i++)
+    for(i=0, z=0; linea[i] != '\n'; i++)
     {
         if (linea[i]== '"')
         {
@@ -110,7 +110,13 @@ void leerfichero (datos x[])
                 i++;
                 j++;
             }while(linea[i] != '"');
+            j++;
+            cadnum[j] = '\0';
             printf("%s    ", cadnum);
+            x[z].hidraulica = atof(cadnum);
+            printf("\n");
+            printf("El num %d es: %.3f  ", z+1, x[z].hidraulica);
+            z++;
         }
     }
 
