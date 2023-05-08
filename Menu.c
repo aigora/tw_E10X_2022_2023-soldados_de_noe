@@ -32,6 +32,7 @@ void menu(); //Función donde realizar el menu
 void leerfichero (datos []); //Función para leer el fichero y guardar la información en la estructura datos
 void tabla(); //Función para poner lo datos de una fecha en formato tabla/matriz
 void datoconcreto(); //Función para pedir un dato concreto de una fecha concreta
+void estadistica(); //Función que realiza opciones estadisticas
 
 
 int main()
@@ -45,7 +46,7 @@ void menu()
     int i;
     datos energia[24]; //Vector estructura para almacenar los datos de las energias de cada fecha
     leerfichero (energia);
-    //printf("Bienvenid@ al menu. Elige la opción que desees: \n");
+    printf("Bienvenid@ al menu. Elige la opción que desees: \n");
 }
 
 void leerfichero (datos x[])
