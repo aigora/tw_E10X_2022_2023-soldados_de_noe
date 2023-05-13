@@ -11,8 +11,8 @@ typedef struct{
         char tipo_energia[40];
         char x[24][40];
         } energia;
-        
-/*        
+
+
 typedef struct{
     calendario fecha;
     double hidraulica;
@@ -45,7 +45,7 @@ void estadistica(); //Función que realiza opciones estadisticas
 #define N 18
 int main()
 {
-    
+
     energia E[N]; //Vector estructura para almacenar los datos de las energias de cada fecha
     menu(E);
     return 0;
@@ -65,21 +65,21 @@ void leerfichero (energia E[])
     char linea[1000], titulo[30], cadnum[30];
     float numero;
     FILE *fichero=NULL;
-    
+
     //fichero=fopen("C:\\doc\\per\\pruebac\\prueba.txt","rt");
     fichero=fopen(".\\generacion_por_tecnologias_21_22_puntos.csv","rt"); //Abrimos el fichero en modo lectura
     if(fichero==NULL)
         printf("No se pudo abrir el archivo");
-    
+
     fgets(linea, 1000, fichero); // Saltar las cuatro primeras líneas (títulos)
     printf("\n%s\n", linea);
-    
+
     fgets(linea, 1000, fichero);
     fgets(linea, 1000, fichero);
     fgets(linea, 1000, fichero);
     fgets(linea, 1000, fichero);
-    
-    
+
+
     for(i=0;i<18;i++)
     {
      fgets(linea, 1000, fichero); //Recoge la quinta linea (la de las fechas)
@@ -97,11 +97,11 @@ void leerfichero (energia E[])
      getchar();
     }
     system("pause");
-    
+
     getchar();
     //printf("El titulo es %s", titulo);
 }
-/* 
+
     i=0;
     while(separar != NULL ) {
         //printf( "%s\n", separar);
@@ -156,4 +156,4 @@ void leerfichero (energia E[])
 
     fclose(fichero);
 }
-*/
+
