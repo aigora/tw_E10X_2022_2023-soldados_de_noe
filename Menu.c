@@ -9,38 +9,18 @@ typedef struct{
 
 typedef struct{
         char tipo_energia[40];
-        char x[24][40];
-        } energia;
+        float x[24];//donde se van a recoger los valores numericos de cada ipo de energia
+        calendario fecha[24];
+} energia;
 
 
-typedef struct{
-    calendario fecha;
-    double hidraulica;
-    double turbinacion; //Turbinación bombeo
-    double nuclear;
-    double carbon;
-    double fuel_gas;
-    double motores; //Motores diésel
-    double tGas; //Turbina de gas
-    double tVapor; //Turbina de vapor
-    double cicloc; //Ciclo combinado
-    double hidroeolica;
-    double eolica;
-    double sFotovoltaica; //Solar fotovoltaica
-    double sTermica; //Solar térmica
-    double otrasRenovables;
-    double cogeneracion;
-    double residuosNo; //residuos no renovables
-    double residuosRenovables; //residuos renovables
-    double generacion; //generacion total
-}energia;
-*/
 //FUNCIONES
 void menu(energia E[]); //Funcion donde realizar el menu
 void leerfichero(energia E[]); //Funcion para leer el fichero y guardar la información en la estructura datos
 void tabla(); //Función para poner lo datos de una fecha en formato tabla/matriz
 void datoconcreto(); //Función para pedir un dato concreto de una fecha concreta
 void estadistica(); //Función que realiza opciones estadisticas
+void crearfichero(); //Pide al usuario un dato y lo muestra en un fichero generado por el programa
 
 #define N 18
 int main()
@@ -48,14 +28,36 @@ int main()
 
     energia E[N]; //Vector estructura para almacenar los datos de las energias de cada fecha
     menu(E);
+    //printf("EL DATOS ES: %f", E[6].x[1]); //Comprobación de que la estructura ha recogido bien los datos
     return 0;
 }
 
 void menu(energia E[])
 {
-    int i;
+    int i, opcion;
     leerfichero(E);
+    //printf("LA FECHA ES: %d, %d", E[0].fecha[6].meses, E[0].fecha[6].ano);
     printf("Bienvenido/a al menu. Elige la opcion que desees: \n");
+    printf("1- Buscar dato concreto\n2- Crear tabla\n3- Buscar estadistica\n4- Poner dato en fichero\n5- Salir\n");
+    scanf("%d", &opcion);
+    switch(opcion)
+    {
+    case 1:
+        datoconcreto();
+        break;
+    case 2:
+        tabla();
+        break;
+    case 3:
+        estadistica();
+        break;
+    case 4:
+        crearfichero();
+        break;
+    case 5:
+        printf("\n\nFIN DEL PROGRAMA");
+        break;
+    }
 }
 
 void leerfichero (energia E[])
@@ -72,88 +74,51 @@ void leerfichero (energia E[])
         printf("No se pudo abrir el archivo");
 
     fgets(linea, 1000, fichero); // Saltar las cuatro primeras líneas (títulos)
-    printf("\n%s\n", linea);
+    //printf("\n%s\n", linea);
 
     fgets(linea, 1000, fichero);
     fgets(linea, 1000, fichero);
     fgets(linea, 1000, fichero);
-    fgets(linea, 1000, fichero);
-
-
-    for(i=0;i<18;i++)
+    fgets(linea, 1000, fichero); //Recoge la quinta linea (la de las fechas)
+    //printf("\n%s\n", linea);
+    char *separar1 = strtok(linea, ","); //Va escogiendo los valores/caracteres de la linea separados por comas
+    //printf("\n%s\n", separar1);
+    sscanf(separar1, "%s", &titulo);
+    //printf("El titulo es %s", titulo);
+    for (i=0, j=0; j<24; j++) //Bucle para recoger las fechas (se almacenan todas en el vector E[0]
     {
-     fgets(linea, 1000, fichero); //Recoge la quinta linea (la de las fechas)
-     printf("\n%s\n", linea);
+        separar1 = strtok(NULL, ",");
+        //puts(separar1);
+        int m, a;
+        sscanf(separar1, "%d\/%d",&m, &a);
+        //printf("TEST %d, %d\t", m, a);
+        E[i].fecha[j].meses = m;
+        E[i].fecha[j].ano = a;
+    }
+
+
+    for(i=1;i<19;i++) //Bucle para recoger los datos numericos (se almacenan del vector E[1] al E[19]
+    {
+     fgets(linea, 1000, fichero); //Va recogiendo las líneas de los datos
+     //printf("\n%s\n", linea);
      char *separar = strtok(linea,","); //Va escogiendo los valores/caracteres de la linea separados por comas
-     sscanf(separar,"%s",E[0].tipo_energia);
-     printf("%s\n",E[0].tipo_energia);
+     sscanf(separar,"%s",E[0].tipo_energia); //Recoge el título
+     //printf("%s\n",E[0].tipo_energia);
      for(j=0;j<24;j++)
      {
       separar = strtok(NULL,",");
-      puts(separar);
-      sscanf(separar,E[i].x[j]);
-      printf("%s\n",E[i].x[j]);
+      //puts(separar);
+      float test;
+      sscanf(separar, "\"%f",&test);
+      //printf("TEST %f\n", test);
+      E[i].x[j] = test;
      }
-     getchar();
+     //getchar();
     }
-    system("pause");
+    //system("pause");
 
-    getchar();
-    //printf("El titulo es %s", titulo);
-}
-
-    i=0;
-    while(separar != NULL ) {
-        //printf( "%s\n", separar);
-        sscanf(separar, "%d/%d", &x[i-1].fecha.meses, &x[i-1].fecha.ano); //Recoge las fechas en la estructura (se le pone -1 para esten en las posiciones del 0 al 23)
-        //printf("\nlas fechas %d son: %d\t%d", i-1, x[i-1].fecha.meses, x[i-1].fecha.ano);
-        separar = strtok(NULL, ",");
-        i++;
-    }
-
-
-    fgets(linea, 1000, fichero); //Recoge la sexta linea (hidraulica)
-    printf("Esta es la cadena recogida: \n%s\n", linea);
-    getchar();
-    i=-1;
-    do{ //Bucle para cambiar las comas de los numeros por puntos
-        i++;
-        if(linea[i]=='"')
-        {
-            do{
-                i++;
-                if (linea[i] == ',')
-                {
-                    linea[i] = '.';
-                }
-            }while(linea[i] != '"');
-        }
-
-    }while(linea[i] != '\n');
-    printf("Esta es la cadena cambiada: \n%s\n", linea);
-
-    for(i=0, z=0; linea[i] != '\n'; i++)
-    {
-        if (linea[i]== '"')
-        {
-            j=0;
-            i++;
-            do{
-                cadnum[j] = linea[i];
-                i++;
-                j++;
-            }while(linea[i] != '"');
-            j++;
-            cadnum[j] = '\0';
-            printf("%s    ", cadnum);
-            x[z].hidraulica = atof(cadnum);
-            printf("\n");
-            printf("El num %d es: %.3f  ", z+1, x[z].hidraulica);
-            z++;
-        }
-    }
-
-
+    //getchar();
+    //Los getchar() estan para cuando quiero probar si recoge bien un dato, hasta que le doy a enter no salta al siguiente
     fclose(fichero);
 }
 
