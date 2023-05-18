@@ -21,6 +21,7 @@ void tabla(); //Función para poner lo datos de una fecha en formato tabla/matri
 void datoconcreto(); //Función para pedir un dato concreto de una fecha concreta
 void estadistica(); //Función que realiza opciones estadisticas
 void crearfichero(); //Pide al usuario un dato y lo muestra en un fichero generado por el programa
+void ordenarvalores(); //Ordena los valores de mayor a menor
 
 #define N 18
 int main()
@@ -38,7 +39,7 @@ void menu(energia E[])
     leerfichero(E);
     //printf("LA FECHA ES: %d, %d", E[0].fecha[6].meses, E[0].fecha[6].ano);
     printf("Bienvenido/a al menu. Elige la opcion que desees: \n");
-    printf("1- Buscar dato concreto\n2- Crear tabla\n3- Buscar estadistica\n4- Poner dato en fichero\n5- Salir\n");
+    printf("1- Buscar dato concreto\n2- Crear tabla\n3- Buscar estadistica\n4- Poner dato en fichero\n5- Ordenar valores\n6- Salir\n");
     scanf("%d", &opcion);
     switch(opcion)
     {
@@ -55,6 +56,9 @@ void menu(energia E[])
         crearfichero();
         break;
     case 5:
+        ordenarvalores();
+        break;
+    case 6:
         printf("\n\nFIN DEL PROGRAMA");
         break;
     }
