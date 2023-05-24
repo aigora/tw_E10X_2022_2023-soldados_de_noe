@@ -53,7 +53,7 @@ void menu(energia E[])
         estadistica();
         break;
     case 4:
-        crearfichero();
+        crearfichero(E);
         break;
     case 5:
         ordenarvalores();
@@ -124,5 +124,64 @@ void leerfichero (energia E[])
     //getchar();
     //Los getchar() estan para cuando quiero probar si recoge bien un dato, hasta que le doy a enter no salta al siguiente
     fclose(fichero);
+}
+void crearfichero(energia E[])
+{
+    FILE *fichero, *ficheronuevo;
+    char nombre[50];
+    int tipo_energia, mes;
+    float total = 0.0;
+
+    printf("Introduzca el nombre del nuevo fichero: ");
+    scanf("%s", nombre);
+
+    fichero = fopen(".\\generacion_por_tecnologias_21_22_puntos.csv", "r");
+    if (fichero == NULL) {
+        printf("Error al abrir el fichero.\n");
+        return;
+    }
+
+    ficheronuevo = fopen(nombre, "w");
+    if (ficheronuevo == NULL) {
+        printf("Error al abrir el nuevo fichero.\n");
+        fclose(fichero);
+        return;
+    }
+
+    printf("Selecciona el tipo de energia que quiere guardar:\n");
+    printf("1. Hidraulica \n");
+    printf("2. Turbinacion bombeo\n");
+    printf("3. Nuclear\n");
+    printf("4. Carbon\n");
+    printf("5. Fuel + Gas\n");
+    printf("6. Motores diesel\n");
+    printf("7. Turbina de gas\n");
+    printf("8. Turbina de vapo\n");
+    printf("9. Ciclo combinado\n");
+    printf("10. Hidroeolica\n");
+    printf("11. Eolica\n");
+    printf("12. Solar fotovoltaica\n");
+    printf("13. Solar termica\n");
+    printf("14. Otran renovables\n");
+    printf("15. Cogeneracion\n");
+    printf("16. Residuos no renovables\n");
+    printf("17. Residuos renovables\n");
+
+    scanf("%d", &tipo_energia);
+
+
+    fprintf(ficheronuevo, "Datos mensuales de generación de energía en GWh entre 01/2021 y 12/2022:\n");
+    for (mes = 0; mes < 24; mes++) {
+
+        fscanf(fichero, "%f", &E[tipo_energia].x[mes]);
+        total += E[tipo_energia ].x[mes];
+        fprintf(ficheronuevo, "Mes %d: %.2f\n", mes + 1, E[tipo_energia ].x[mes]);
+    }
+
+    fprintf(ficheronuevo, "Total: %.2f\n", total);
+
+    fclose(fichero);
+    fclose(ficheronuevo);
+    printf("Los datos se han copiado correctamente al nuevo fichero.\n");
 }
 
