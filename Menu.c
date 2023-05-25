@@ -17,7 +17,7 @@ typedef struct{
 //FUNCIONES
 void menu(energia E[]); //Funcion donde realizar el menu
 void leerfichero(energia E[]); //Funcion para leer el fichero y guardar la información en la estructura datos
-void tabla(); //Función para poner lo datos de una fecha en formato tabla/matriz
+void tabla(); //Función para poner lo datos de una fecha o tipo de dato en formato tabla (estructurado por filas)
 void datoconcreto(); //Función para pedir un dato concreto de una fecha concreta
 void estadistica(); //Función que realiza opciones estadisticas
 void crearfichero(); //Pide al usuario un dato y lo muestra en un fichero generado por el programa
@@ -26,7 +26,6 @@ void ordenarvalores(); //Ordena los valores de mayor a menor
 #define N 18
 int main()
 {
-
     energia E[N]; //Vector estructura para almacenar los datos de las energias de cada fecha
     menu(E);
     //printf("EL DATOS ES: %f", E[6].x[1]); //Comprobación de que la estructura ha recogido bien los datos
@@ -44,19 +43,19 @@ void menu(energia E[])
     switch(opcion)
     {
     case 1:
-        datoconcreto();
+        //datoconcreto();
         break;
     case 2:
-        tabla();
+        tabla(E);
         break;
     case 3:
-        estadistica();
+        //estadistica();
         break;
     case 4:
         crearfichero(E);
         break;
     case 5:
-        ordenarvalores();
+        //ordenarvalores();
         break;
     case 6:
         printf("\n\nFIN DEL PROGRAMA");
@@ -106,8 +105,8 @@ void leerfichero (energia E[])
      fgets(linea, 1000, fichero); //Va recogiendo las líneas de los datos
      //printf("\n%s\n", linea);
      char *separar = strtok(linea,","); //Va escogiendo los valores/caracteres de la linea separados por comas
-     sscanf(separar,"%s",E[0].tipo_energia); //Recoge el título
-     //printf("%s\n",E[0].tipo_energia);
+     sscanf(separar,"%s",E[i].tipo_energia); //Recoge el título
+     //printf("%s\n",E[i].tipo_energia);
      for(j=0;j<24;j++)
      {
       separar = strtok(NULL,",");
@@ -124,7 +123,14 @@ void leerfichero (energia E[])
     //getchar();
     //Los getchar() estan para cuando quiero probar si recoge bien un dato, hasta que le doy a enter no salta al siguiente
     fclose(fichero);
+
+    for (i=0; i<24; i++) //Configuramos manualmente la de fuel+gas para que no de error
+    {
+        E[5].x[i] = 0;
+    }
+    E[5].x[6] = -0.000001;
 }
+
 void crearfichero(energia E[])
 {
     FILE *fichero, *ficheronuevo;
@@ -175,13 +181,76 @@ void crearfichero(energia E[])
 
         fscanf(fichero, "%f", &E[tipo_energia].x[mes]);
         total += E[tipo_energia ].x[mes];
-        fprintf(ficheronuevo, "Mes %d: %.2f\n", mes + 1, E[tipo_energia ].x[mes]);
+        fprintf(ficheronuevo, "Mes %d: %.4f\n", mes + 1, E[tipo_energia ].x[mes]);
     }
 
-    fprintf(ficheronuevo, "Total: %.2f\n", total);
+    fprintf(ficheronuevo, "Total: %.4f\n", total);
 
     fclose(fichero);
     fclose(ficheronuevo);
     printf("Los datos se han copiado correctamente al nuevo fichero.\n");
 }
+
+void tabla(energia E[])
+{
+    int x, tipodato, fecha, i, j, z;
+    do{
+        printf("Seleccione que desea ver:\n1- Todos los datos de una fecha\n2- Todas las fechas de un dato\n");
+        fflush(stdin);
+        scanf("%d", &x);
+    }while (x!=1 && x!=2);
+    if(x==1)
+    {
+        printf("Seleccione una fecha:\n");
+        for (i=0, z=1, j=0; i<24; i++, j++)
+        {
+            printf("%d- %d/202%d\n", i+1, j+1, z);
+            if(j==11)
+            {
+                z++;
+                j= -1;
+            }
+        }
+        do
+        {
+            fflush(stdin);
+            scanf("%d", &fecha);
+        }while(fecha > 24 || fecha < 0);
+        printf("Los datos de la fecha %d/%d son:\n", E[0].fecha[fecha-1].meses, E[0].fecha[fecha-1].ano);
+        for (i=1; i<19; i++)
+        {
+            printf("%s:\t %f\n", E[i].tipo_energia, E[i].x[fecha-1]);
+            printf("---------------------------------------\n");
+        }
+    }
+    else if (x==2)
+    {
+        printf("Seleccione un tipo de dato:\n");
+        for (i=0, j=1; i<18; i++, j++)
+        {
+            printf("%d- %s\n", i+1, E[j].tipo_energia);
+        }
+        do
+        {
+            fflush(stdin);
+            scanf("%d", &tipodato);
+        }while(tipodato > 18 || tipodato < 0);
+        printf("Los datos por fecha de %s son:\n\n", E[tipodato].tipo_energia);
+        for(i=0; i<24; i++)
+        {
+            if(i<9)
+            {
+                printf("0");
+            }
+            if(11 < i && i <21)
+            {
+                printf("0");
+            }
+            printf("%d/%d:\t %f\n", E[0].fecha[i].meses, E[0].fecha[i].ano, E[tipodato].x[i]);
+            printf("---------------------------------------\n");
+        }
+    }
+}
+
+
 
