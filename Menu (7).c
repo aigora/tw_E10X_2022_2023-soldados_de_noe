@@ -55,7 +55,7 @@ void menu(energia E[])
         crearfichero(E);
         break;
     case 5:
-        //ordenarvalores();
+        ordenarvalores(E);
         break;
     case 6:
         printf("\n\nFIN DEL PROGRAMA");
@@ -126,7 +126,7 @@ void leerfichero (energia E[])
 
     for (i=0; i<24; i++) //Configuramos manualmente la de fuel+gas para que no de error
     {
-        E[5].x[i] = 0;
+        E[5].x[i] = 0.;
     }
     E[5].x[6] = -0.000001;
 }
@@ -201,7 +201,7 @@ void tabla(energia E[])
     }while (x!=1 && x!=2);
     if(x==1)
     {
-        printf("Seleccione una fecha:\n");
+        printf("Seleccione una fecha:\n"); //Bucle para que aparezcan las fechas
         for (i=0, z=1, j=0; i<24; i++, j++)
         {
             printf("%d- %d/202%d\n", i+1, j+1, z);
@@ -226,7 +226,7 @@ void tabla(energia E[])
     else if (x==2)
     {
         printf("Seleccione un tipo de dato:\n");
-        for (i=0, j=1; i<18; i++, j++)
+        for (i=0, j=1; i<18; i++, j++) //Bucle para que aparezca el tipo de dato
         {
             printf("%d- %s\n", i+1, E[j].tipo_energia);
         }
@@ -331,3 +331,196 @@ void estadistica(energia E[]) {
     }
 }
 
+void ordenarvalores(energia E[])
+{
+    int i, j, z, seleccion, fecha, tipodato;
+    float mayor, menor, v[18], m[18], t[24], r[24];
+
+    do{
+        printf("Seleccione una opcion:\n");
+        printf("1- Ordenar una fecha\n");
+        printf("2- Ordenar un tipo de dato\n");
+        scanf("%d", &seleccion);
+    }while (seleccion!=1 && seleccion!=2);
+    if(seleccion==1)
+    {
+        printf("Seleccione una fecha:\n"); //Bucle para que aparezcan las fechas
+        for (i=0, z=1, j=0; i<24; i++, j++)
+        {
+            printf("%d- %d/202%d\n", i+1, j+1, z);
+            if(j==11)
+            {
+                z++;
+                j= -1;
+            }
+        }
+        do
+        {
+            fflush(stdin);
+            scanf("%d", &fecha);
+        }while(fecha > 24 || fecha < 0);
+        do{
+            printf("Seleccione si desea ordenar:\n");
+            printf("1- De mayor a menor\n");
+            printf("2- De menor a mayor\n");
+            scanf("%d", &seleccion);
+        }while (seleccion!=1 && seleccion!=2);
+        printf("Los datos de la fecha %d/%d son:\n", E[0].fecha[fecha-1].meses, E[0].fecha[fecha-1].ano);
+        if(seleccion==1)
+        {
+            for(i=1, j=0; i<19; i++, j++) //Asignación de valores en el vector
+            {
+            v[j] = E[i].x[fecha-1];
+            }
+            for(z=0; z<18; z++) //Bucle ordenar valores
+            {
+                for(i=1, j=0; i<19; i++, j++)
+                {
+                    if(v[j] < v[j+1])
+                        {
+                            mayor = v[j];
+                            v[j] = v[j+1];
+                            v[j+1] = mayor;
+                        }
+                }
+            }
+            for(i=0; i<18; i++)
+            {
+                printf("%d- %f\t", i+1, v[i]);
+                for(j=1; j<19; j++)
+                {
+                    if(v[i] == E[j].x[fecha-1])
+                    {
+                        printf("%s\n", E[j].tipo_energia);
+                    }
+                }
+            }
+        }
+        else{
+            for(i=1, j=0; i<19; i++, j++) //Asignación de valores en el vector
+            {
+            m[j] = E[i].x[fecha-1];
+            //printf("Valores: %f\t", m[j]);
+            //printf("\n");
+            }
+            for(z=0; z<18; z++) //Bucle ordenar valores
+            {
+                for(i=1, j=0; i<19; i++, j++)
+                {
+                    if(m[j] > m[j+1])
+                        {
+                            menor = m[j];
+                            m[j] = m[j+1];
+                            m[j+1] = menor;
+                        }
+                }
+            }
+            for(i=1, j=0; i<19; i++, j++) //Comprobación orden
+            {
+            //printf("Valores ordenados: %f\t", m[j]);
+            //printf("\n");
+            }
+            for(i=0; i<18; i++)
+            {
+                printf("%d- %f\t", i+1, m[i]);
+                for(j=1; j<19; j++)
+                {
+                    if(m[i] == E[j].x[fecha-1])
+                    {
+                        printf("%s\n", E[j].tipo_energia);
+                    }
+                }
+            }
+
+        }
+    }
+    else
+    {
+        printf("Seleccione un tipo de dato:\n");
+        for (i=0, j=1; i<18; i++, j++) //Bucle para que aparezca el tipo de dato
+        {
+            printf("%d- %s\n", i+1, E[j].tipo_energia);
+        }
+        do
+        {
+            fflush(stdin);
+            scanf("%d", &tipodato);
+        }while(tipodato > 18 || tipodato < 0);
+        do{
+            printf("Seleccione si desea ordenar:\n");
+            printf("1- De mayor a menor\n");
+            printf("2- De menor a mayor\n");
+            scanf("%d", &seleccion);
+        }while (seleccion!=1 && seleccion!=2);
+        printf("Los datos de %s son:\n", E[tipodato].tipo_energia);
+        if(seleccion==1)
+        {
+            for(j=0; j<24; j++) //Asignación de valores en el vector
+            {
+            t[j] = E[tipodato].x[j];
+            }
+            for(z=0; z<24; z++) //Bucle ordenar valores
+            {
+                for(j=0; j<24; j++)
+                {
+                    if(t[j] < t[j+1])
+                        {
+                            mayor = t[j];
+                            t[j] = t[j+1];
+                            t[j+1] = mayor;
+                        }
+                }
+            }
+            /*for(i=0; i<24; i++)
+            {
+                printf("Valores: %f\t", t[i]);
+                printf("\n");
+            }*/
+            for(i=0; i<24; i++)
+            {
+                printf("%d- %f\t", i+1, t[i]);
+                for(j=0; j<24; j++)
+                {
+                    if(t[i] == E[tipodato].x[j])
+                    {
+                        printf("(%d/%d)\n", E[0].fecha[j].meses, E[0].fecha[j].ano);
+                    }
+                }
+            }
+        }
+        else{
+                for(j=0; j<24; j++) //Asignación de valores en el vector
+            {
+            r[j] = E[tipodato].x[j];
+            }
+            for(z=0; z<24; z++) //Bucle ordenar valores
+            {
+                for(j=0; j<24; j++)
+                {
+                    if(r[j] > r[j+1])
+                        {
+                            menor = r[j];
+                            r[j] = r[j+1];
+                            r[j+1] = menor;
+                        }
+                }
+            }
+            for(i=0; i<24; i++)
+            {
+                printf("Valores: %f\t", r[i]);
+                printf("\n");
+            }
+            for(i=0; i<24; i++)
+            {
+                printf("%d- %f\t", i+1, r[i]);
+                for(j=0; j<24; j++)
+                {
+                    if(r[i] == E[tipodato].x[j])
+                    {
+                        printf("(%d/%d)\n", E[0].fecha[j].meses, E[0].fecha[j].ano);
+                    }
+                }
+            }
+        }
+    }
+}
