@@ -38,7 +38,7 @@ void menu(energia E[])
     leerfichero(E);
     //printf("LA FECHA ES: %d, %d", E[0].fecha[6].meses, E[0].fecha[6].ano);
     printf("Bienvenido/a al menu. Elige la opcion que desees: \n");
-    printf("1- Buscar dato concreto\n2- Crear tabla\n3- Buscar estadistica\n4- Poner dato en fichero\n5- Ordenar valores\n6- Salir\n");
+    printf("1- Buscar dato concreto\n2- Crear tabla\n3- Buscar estadistica\n4- Crear fichero\n5- Ordenar valores\n6- Salir\n");
     scanf("%d", &opcion);
     switch(opcion)
     {
@@ -135,13 +135,18 @@ void crearfichero(energia E[])
 {
     FILE *fichero, *ficheronuevo;
     char nombre[50];
-    int tipo_energia, mes;
+    int tipo, mes, opcion,i, fecha;
     float total = 0.0;
+
+    printf("Que quieres guardar?\n");
+    printf("1. Tipo de energia\n");
+    printf("2. Fecha\n");
+    scanf("%d", &opcion);
 
     printf("Introduzca el nombre del nuevo fichero: ");
     scanf("%s", nombre);
 
-     // Abrir el fichero original en modo lectura
+    // Abrir el fichero original en modo lectura
     fichero = fopen(".\\generacion_por_tecnologias_21_22_puntos.csv", "r");
     if (fichero == NULL) {
         printf("Error al abrir el fichero.\n");
@@ -156,8 +161,9 @@ void crearfichero(energia E[])
         return;
     }
 
-    printf("Selecciona el tipo de energia que quiere guardar:\n");
-    printf("1. Hidraulica \n");
+    if (opcion == 1) {
+    printf("Selecciona el tipo de energia que quieres guardar:\n");
+    printf("1. Hidraulica\n");
     printf("2. Turbinacion bombeo\n");
     printf("3. Nuclear\n");
     printf("4. Carbon\n");
@@ -174,21 +180,46 @@ void crearfichero(energia E[])
     printf("15. Cogeneracion\n");
     printf("16. Residuos no renovables\n");
     printf("17. Residuos renovables\n");
+    scanf("%d", &tipo);
 
-    scanf("%d", &tipo_energia);
+        // Comprobar el tipo de energía
+        while (tipo < 1 || tipo > 17) {
+            printf("Selección no válida. Seleccione un número indicado: ");
+            scanf("%d", &tipo);
+        }
 
+        fprintf(ficheronuevo, "Datos mensuales de generación de energía en GWh entre 01/2021 y 12/2022:\n");
 
-    fprintf(ficheronuevo, "Datos mensuales de generación de energía en GWh entre 01/2021 y 12/2022:\n");
-    
-    // Leer los datos del fichero original y colocarlos en el nuevo fichero
-    for (mes = 0; mes < 24; mes++) {
-        fscanf(fichero, "%f", &E[tipo_energia].x[mes]);
-        total += E[tipo_energia ].x[mes];
-        fprintf(ficheronuevo, "Mes %d: %.4f\n", mes + 1, E[tipo_energia ].x[mes]);
-    }
+        // Leer los datos del fichero original y colocarlos en el nuevo fichero
+        for (mes = 0; mes < 24; mes++) {
+            fscanf(fichero, "%f", &E[tipo].x[mes]);
+            total += E[tipo].x[mes];
+            fprintf(ficheronuevo, "Mes %d: %.4f\n", mes + 1, E[tipo].x[mes]);
+        }
+    } else if (opcion == 2) {
+        printf("Selecciona una fecha:\n");
+        for (i = 0; i < 24; i++) {
+            printf("%d. %d/%d\n", i + 1, E[0].fecha[i].meses, E[0].fecha[i].ano);
+        }
+        scanf("%d", &fecha);
+
+        // Comprobar la fecha
+        while (fecha < 1 || fecha > 24) {
+            printf("Fecha no válida. Selecciona una nueva:\n");
+            scanf("%d", &fecha);
+        }
+
+        fprintf(ficheronuevo, "Generación de los diferentes tipos de energía en GWh para la fecha indicada:\n");
+        for (tipo = 1; tipo < 18; tipo++){
+            fscanf(fichero, "%f", &E[tipo].x[fecha - 1]);
+            total += E[tipo].x[fecha - 1];
+            fprintf(ficheronuevo, "Tipo de energía %d: %.4f\n", tipo, E[tipo].x[fecha - 1]);
+        }
+    } else
+        printf("Opción no válida.\n");
+
 
     fprintf(ficheronuevo, "Total: %.4f\n", total);
-
     fclose(fichero);
     fclose(ficheronuevo);
     printf("Los datos se han copiado correctamente al nuevo fichero.\n");
@@ -562,11 +593,10 @@ void datoconcreto(energia E[])
     scanf("%d", &tipo);
     
 // Comprobar el tipo de energia 
-    while(tipo < 1 || tipo > 18){
+    while(tipo < 1 || tipo > 17){
         printf("Seleccion no valida. Seleccione un numero indicado");
         scanf("%d", &tipo);
 
     }
     printf("El dato es: %.4f GWh\n",  E[tipo].x[fecha - 1]);
-
 }
