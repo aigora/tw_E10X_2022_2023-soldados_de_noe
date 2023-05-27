@@ -20,7 +20,7 @@ void leerfichero(energia E[]); //Funcion para leer el fichero y guardar la infor
 void tabla(); //Función para poner lo datos de una fecha o tipo de dato en formato tabla (estructurado por filas)
 void datoconcreto(); //Función para pedir un dato concreto de una fecha concreta
 void estadistica(); //Función que realiza opciones estadisticas
-void crearfichero(); //Pide al usuario un dato y lo muestra en un fichero generado por el programa
+void crearfichero(); //Pide al usuario una energia y muestra sus datos en un fichero generado por el programa
 void ordenarvalores(); //Ordena los valores de mayor a menor
 
 #define N 18
@@ -43,7 +43,7 @@ void menu(energia E[])
     switch(opcion)
     {
     case 1:
-        //datoconcreto();
+        datoconcreto(E);
         break;
     case 2:
         tabla(E);
@@ -141,12 +141,14 @@ void crearfichero(energia E[])
     printf("Introduzca el nombre del nuevo fichero: ");
     scanf("%s", nombre);
 
+     // Abrir el fichero original en modo lectura
     fichero = fopen(".\\generacion_por_tecnologias_21_22_puntos.csv", "r");
     if (fichero == NULL) {
         printf("Error al abrir el fichero.\n");
         return;
     }
 
+    // Abrir el nuevo fichero en modo escritura
     ficheronuevo = fopen(nombre, "w");
     if (ficheronuevo == NULL) {
         printf("Error al abrir el nuevo fichero.\n");
@@ -177,8 +179,9 @@ void crearfichero(energia E[])
 
 
     fprintf(ficheronuevo, "Datos mensuales de generación de energía en GWh entre 01/2021 y 12/2022:\n");
+    
+    // Leer los datos del fichero original y colocarlos en el nuevo fichero
     for (mes = 0; mes < 24; mes++) {
-
         fscanf(fichero, "%f", &E[tipo_energia].x[mes]);
         total += E[tipo_energia ].x[mes];
         fprintf(ficheronuevo, "Mes %d: %.4f\n", mes + 1, E[tipo_energia ].x[mes]);
@@ -523,4 +526,47 @@ void ordenarvalores(energia E[])
             }
         }
     }
+}
+void datoconcreto(energia E[])
+{
+    int fecha, tipo,i;
+    printf("Selecciona una fecha:\n");
+    for (i=0; i<24; i++)
+        printf("%d. %d/%d\n", i+1, E[0].fecha[i].meses,E[0].fecha[i].ano);
+    scanf("%d", &fecha);
+    
+    // Comprbar la fecha 
+    while(fecha < 1 || fecha > 24){
+        printf("Fecha no valida. Selecciona una nueva:\n");
+        scanf("%i", &fecha);
+    }
+    
+    printf("Selecciona el tipo de energia que quieres guardar:\n");
+    printf("1. Hidraulica\n");
+    printf("2. Turbinacion bombeo\n");
+    printf("3. Nuclear\n");
+    printf("4. Carbon\n");
+    printf("5. Fuel + Gas\n");
+    printf("6. Motores diesel\n");
+    printf("7. Turbina de gas\n");
+    printf("8. Turbina de vapo\n");
+    printf("9. Ciclo combinado\n");
+    printf("10. Hidroeolica\n");
+    printf("11. Eolica\n");
+    printf("12. Solar fotovoltaica\n");
+    printf("13. Solar termica\n");
+    printf("14. Otran renovables\n");
+    printf("15. Cogeneracion\n");
+    printf("16. Residuos no renovables\n");
+    printf("17. Residuos renovables\n");
+    scanf("%d", &tipo);
+    
+// Comprobar el tipo de energia 
+    while(tipo < 1 || tipo > 18){
+        printf("Seleccion no valida. Seleccione un numero indicado");
+        scanf("%d", &tipo);
+
+    }
+    printf("El dato es: %.4f GWh\n",  E[tipo].x[fecha - 1]);
+
 }
