@@ -184,11 +184,11 @@ void crearfichero(energia E[])
 
         // Comprobar el tipo de energía
         while (tipo < 1 || tipo > 17) {
-            printf("Selección no válida. Seleccione un número indicado: ");
+            printf("Seleccion no valida. Seleccione un numero indicado: ");
             scanf("%d", &tipo);
         }
 
-        fprintf(ficheronuevo, "Datos mensuales de generación de energía en GWh entre 01/2021 y 12/2022:\n");
+        fprintf(ficheronuevo, "Datos mensuales de generacion de energia en GWh entre 01/2021 y 12/2022:\n");
 
         // Leer los datos del fichero original y colocarlos en el nuevo fichero
         for (mes = 0; mes < 24; mes++) {
@@ -205,18 +205,18 @@ void crearfichero(energia E[])
 
         // Comprobar la fecha
         while (fecha < 1 || fecha > 24) {
-            printf("Fecha no válida. Selecciona una nueva:\n");
+            printf("Fecha no valida. Selecciona una nueva:\n");
             scanf("%d", &fecha);
         }
 
-        fprintf(ficheronuevo, "Generación de los diferentes tipos de energía en GWh para la fecha indicada:\n");
+        fprintf(ficheronuevo, "Generacion de los diferentes tipos de energia en GWh para la fecha indicada:\n");
         for (tipo = 1; tipo < 18; tipo++){
             fscanf(fichero, "%f", &E[tipo].x[fecha - 1]);
             total += E[tipo].x[fecha - 1];
-            fprintf(ficheronuevo, "Tipo de energía %d: %.4f\n", tipo, E[tipo].x[fecha - 1]);
+            fprintf(ficheronuevo, "Tipo de energia %d: %.4f\n", tipo, E[tipo].x[fecha - 1]);
         }
     } else
-        printf("Opción no válida.\n");
+        printf("Opcion no valida.\n");
 
 
     fprintf(ficheronuevo, "Total: %.4f\n", total);
