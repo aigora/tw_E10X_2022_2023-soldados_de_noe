@@ -5,7 +5,7 @@ El proyecto que realizaremos tratará de un menú donde el usuario podrá accede
 
 Víctor          (victorport)
 Diego Ronda      (dRonda)
-Rafael Barreto De Vicente (rafaelbarretodv)
+Rafael Barreto De Vicente (rafaelbarretodv) <br />
 
 ## Objetivos del trabajo
 
