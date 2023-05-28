@@ -21,7 +21,7 @@ void leerfichero(energia E[]); //Funcion para leer el fichero y guardar la infor
 void tabla(); //Función para poner lo datos de una fecha o tipo de dato en formato tabla (estructurado por filas)
 void datoconcreto(); //Función para pedir un dato concreto de una fecha concreta
 void estadistica(); //Función que realiza opciones estadisticas
-void crearfichero(); //Pide al usuario una energia y muestra sus datos en un fichero generado por el programa
+void crearfichero(); //Función que crea un fichero con los datos de un mes o un tipo de energía a elección del usuario
 void ordenarvalores(); //Ordena los valores de mayor a menor
 
 #define N 18
