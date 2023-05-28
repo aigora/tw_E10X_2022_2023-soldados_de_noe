@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
+#include <stdbool.h>
 typedef struct{
     int meses;
     int ano;
@@ -565,13 +566,13 @@ void datoconcreto(energia E[])
     for (i=0; i<24; i++)
         printf("%d. %d/%d\n", i+1, E[0].fecha[i].meses,E[0].fecha[i].ano);
     scanf("%d", &fecha);
-    
-    // Comprbar la fecha 
+
+    // Comprbar la fecha
     while(fecha < 1 || fecha > 24){
         printf("Fecha no valida. Selecciona una nueva:\n");
         scanf("%i", &fecha);
     }
-    
+
     printf("Selecciona el tipo de energia que quieres guardar:\n");
     printf("1. Hidraulica\n");
     printf("2. Turbinacion bombeo\n");
@@ -591,8 +592,8 @@ void datoconcreto(energia E[])
     printf("16. Residuos no renovables\n");
     printf("17. Residuos renovables\n");
     scanf("%d", &tipo);
-    
-// Comprobar el tipo de energia 
+
+// Comprobar el tipo de energia
     while(tipo < 1 || tipo > 17){
         printf("Seleccion no valida. Seleccione un numero indicado");
         scanf("%d", &tipo);
