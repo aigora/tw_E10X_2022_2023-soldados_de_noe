@@ -2,9 +2,13 @@
 
 El proyecto que realizaremos tratará de un menú donde el usuario podrá acceder a los datos de un fichero de diferentes maneras.
 Ese menú dispondrá de opciones tales como: 
-Estadísitca(media, desviación típica..) ; 
-Ordenar (Alfabéticamente, de mayor a menor según que características..) ; 
+
+Estadísitca(media, desviación típica..) 
+
+Ordenar (Alfabéticamente, de mayor a menor según que características..) 
+
 Mostrar (mes, energía..)
+
 ## Integrantes del equipo
 
 Víctor  (victorport)
