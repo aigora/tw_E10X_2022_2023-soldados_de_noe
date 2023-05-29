@@ -15,7 +15,7 @@ Víctor  (victorport)
 
 Diego Ronda  (@dRonda)
 
-Rafael Barreto De Vicente (@rafaelbarretodv
+Rafael Barreto De Vicente (@rafaelbarretodv)
 
 ## Objetivos del trabajo
 
