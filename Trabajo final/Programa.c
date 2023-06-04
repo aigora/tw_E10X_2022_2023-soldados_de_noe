@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdbool.h>
+#include <string.h>
+
 typedef struct{
     int meses;
     int ano;
